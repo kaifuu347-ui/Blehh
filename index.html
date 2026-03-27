@@ -15,6 +15,7 @@ body {
     font-family: 'Press Start 2P', cursive;
     text-align: center;
     color: white;
+    cursor: pointer;
 }
 
 .light {
@@ -22,7 +23,7 @@ body {
     color: black;
 }
 
-/* SWITCH */
+/* SWITCH (visual only now) */
 .switch {
     position: absolute;
     top: 0;
@@ -41,7 +42,6 @@ body {
     height: 30px;
     background: #ccc;
     border-radius: 50%;
-    cursor: grab;
 }
 
 /* TEXT */
@@ -124,14 +124,15 @@ button:hover {
 </style>
 </head>
 
-<body>
+<body onclick="activate()">
 
 <div class="switch">
-    <div id="rope" class="rope"></div>
-    <div id="knob" class="knob"></div>
+    <div class="rope"></div>
+    <div class="knob"></div>
 </div>
 
 <div id="msg" class="msg">bleh I love you 👅</div>
+
 <img src="https://i.imgur.com/3ZQ3Z4p.png" id="cat" class="cat">
 
 <div id="buttons" class="buttons">
@@ -149,40 +150,12 @@ button:hover {
 <audio id="confettiSfx" src="https://www.soundjay.com/human/cheer-01.mp3"></audio>
 
 <script>
-let dragging = false;
 let activated = false;
 
-const knob = document.getElementById("knob");
-const rope = document.getElementById("rope");
-
-/* START DRAG */
-knob.addEventListener("mousedown", () => dragging = true);
-knob.addEventListener("touchstart", () => dragging = true);
-
-/* STOP DRAG */
-document.addEventListener("mouseup", () => dragging = false);
-document.addEventListener("touchend", () => dragging = false);
-
-/* DRAG MOVE */
-document.addEventListener("mousemove", handleDrag);
-document.addEventListener("touchmove", handleDrag);
-
-function handleDrag(e) {
-    if (!dragging || activated) return;
-
-    let y = e.touches ? e.touches[0].clientY : e.clientY;
-
-    let length = Math.min(250, Math.max(120, y));
-    rope.style.height = length + "px";
-
-    if (length > 220) {
-        activated = true;
-        activate();
-    }
-}
-
-/* ACTIVATE */
 function activate() {
+    if (activated) return;
+    activated = true;
+
     document.body.classList.add("light");
     document.getElementById("msg").style.display = "block";
     document.getElementById("cat").style.display = "block";
@@ -204,7 +177,6 @@ function activate() {
     },4000);
 }
 
-/* EFFECTS */
 function balloons() {
     for(let i=0;i<20;i++){
         let b=document.createElement("div");
@@ -227,7 +199,6 @@ function confetti() {
     }
 }
 
-/* BUTTON RESPONSE */
 function reply(type){
     let text = document.getElementById("replyText");
     text.style.display = "block";
@@ -239,7 +210,6 @@ function reply(type){
     }
 }
 
-/* COLORS */
 function randomColor(){
     let colors=["red","blue","yellow","green","pink","orange","purple"];
     return colors[Math.floor(Math.random()*colors.length)];
@@ -247,4 +217,4 @@ function randomColor(){
 </script>
 
 </body>
-</html>
+    </html>
