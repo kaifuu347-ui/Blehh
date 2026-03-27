@@ -17,6 +17,7 @@ body {
     color: white;
 }
 
+/* LIGHT ON */
 .light {
     background: linear-gradient(to top, #ffd6e7, white);
     color: black;
@@ -44,12 +45,12 @@ body {
     cursor: grab;
 }
 
-/* MESSAGE */
+/* TEXT */
 .msg {
     position: absolute;
-    top: 20%;
+    top: 18%;
     width: 100%;
-    font-size: 22px;
+    font-size: 20px;
     display: none;
 }
 
@@ -59,9 +60,31 @@ body {
     bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
-    width: 220px;
-    opacity: 0;
-    transition: 1s;
+    width: 230px;
+    display: none;
+}
+
+/* BUTTONS */
+.buttons {
+    position: absolute;
+    bottom: 120px;
+    width: 100%;
+    display: none;
+}
+
+button {
+    font-family: 'Press Start 2P';
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    background: black;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: pink;
+    color: black;
 }
 
 /* BALLOONS */
@@ -71,7 +94,7 @@ body {
     width: 40px;
     height: 50px;
     border-radius: 50%;
-    animation: up linear infinite;
+    animation: up linear forwards;
 }
 
 .balloon::after {
@@ -93,7 +116,7 @@ body {
     position: absolute;
     width: 10px;
     height: 10px;
-    animation: fall linear infinite;
+    animation: fall linear;
 }
 
 @keyframes fall {
@@ -110,7 +133,16 @@ body {
 </div>
 
 <div id="msg" class="msg">bleh I love you 👅</div>
-<img src="cat.png" id="cat" class="cat">
+
+<!-- RELIABLE CAT IMAGE -->
+<img src="https://i.imgur.com/3ZQ3Z4p.png" id="cat" class="cat">
+
+<div id="buttons" class="buttons">
+    <button onclick="reply('thank')">THANK YOU</button>
+    <button onclick="reply('nah')">THERE WAS NO NEED FOR THIS</button>
+</div>
+
+<div id="replyText" class="msg" style="top:50%; display:none;"></div>
 
 <audio id="music">
   <source src="song.mp3" type="audio/mpeg">
@@ -142,9 +174,7 @@ function activate() {
 
     document.body.classList.add("light");
     document.getElementById("msg").style.display = "block";
-
-    let cat = document.getElementById("cat");
-    cat.style.opacity = 1;
+    document.getElementById("cat").style.display = "block";
 
     // SOUND
     document.getElementById("switchSfx").play();
@@ -158,6 +188,11 @@ function activate() {
 
     balloons();
     confetti();
+
+    // SHOW BUTTONS AFTER BALLOONS FINISH (~4s)
+    setTimeout(()=>{
+        document.getElementById("buttons").style.display = "block";
+    },4000);
 }
 
 function balloons() {
@@ -166,7 +201,7 @@ function balloons() {
         b.className="balloon";
         b.style.left=Math.random()*100+"vw";
         b.style.background=randomColor();
-        b.style.animationDuration=(4+Math.random()*3)+"s";
+        b.style.animationDuration=(3+Math.random()*2)+"s";
         document.body.appendChild(b);
     }
 }
@@ -179,6 +214,17 @@ function confetti() {
         c.style.background=randomColor();
         c.style.animationDuration=(2+Math.random()*2)+"s";
         document.body.appendChild(c);
+    }
+}
+
+function reply(type){
+    let text = document.getElementById("replyText");
+    text.style.display = "block";
+
+    if(type === "thank"){
+        text.innerHTML = "muahh ly 🥰";
+    } else {
+        text.innerHTML = "katti yawr 😡😔";
     }
 }
 
