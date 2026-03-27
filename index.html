@@ -23,7 +23,7 @@ body {
     color: black;
 }
 
-/* SWITCH (visual only now) */
+/* SWITCH */
 .switch {
     position: absolute;
     top: 0;
@@ -49,19 +49,30 @@ body {
     position: absolute;
     top: 18%;
     width: 100%;
-    font-size: 20px;
+    font-size: 28px;
     display: none;
 }
 
-/* CAT */
+/* MAIN CAT */
 .cat {
     position: absolute;
     bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
-    width: 230px;
+    width: 220px;
     display: none;
 }
+
+/* EXTRA CATS */
+.cat2, .cat3, .cat4 {
+    position: absolute;
+    width: 120px;
+    display: none;
+}
+
+.cat2 { top: 10%; left: 10%; transform: rotate(-20deg); }
+.cat3 { top: 30%; right: 10%; transform: rotate(15deg); }
+.cat4 { bottom: 10%; left: 15%; transform: rotate(10deg); }
 
 /* BUTTONS */
 .buttons {
@@ -73,7 +84,7 @@ body {
 
 button {
     font-family: 'Press Start 2P';
-    padding: 10px;
+    padding: 12px;
     margin: 10px;
     border: none;
     background: black;
@@ -133,7 +144,11 @@ button:hover {
 
 <div id="msg" class="msg">bleh I love you 👅</div>
 
-<img src="https://i.imgur.com/3ZQ3Z4p.png" id="cat" class="cat">
+<!-- CATS -->
+<img src="cat.png" class="cat" id="cat">
+<img src="cat.png" class="cat2" id="cat2">
+<img src="cat.png" class="cat3" id="cat3">
+<img src="cat.png" class="cat4" id="cat4">
 
 <div id="buttons" class="buttons">
     <button onclick="reply('thank')">THANK YOU</button>
@@ -157,8 +172,14 @@ function activate() {
     activated = true;
 
     document.body.classList.add("light");
+
     document.getElementById("msg").style.display = "block";
+
+    // show all cats
     document.getElementById("cat").style.display = "block";
+    document.getElementById("cat2").style.display = "block";
+    document.getElementById("cat3").style.display = "block";
+    document.getElementById("cat4").style.display = "block";
 
     document.getElementById("switchSfx").play();
 
@@ -204,9 +225,9 @@ function reply(type){
     text.style.display = "block";
 
     if(type === "thank"){
-        text.innerHTML = "muahh ly 🥰";
+        text.innerHTML = "muahhh love you yawrr 🥰🥰";
     } else {
-        text.innerHTML = "katti yawr 😡😔";
+        text.innerHTML = "kattii yaawr 😡";
     }
 }
 
