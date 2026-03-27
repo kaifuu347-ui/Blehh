@@ -17,7 +17,6 @@ body {
     color: white;
 }
 
-/* LIGHT ON */
 .light {
     background: linear-gradient(to top, #ffd6e7, white);
     color: black;
@@ -133,8 +132,6 @@ button:hover {
 </div>
 
 <div id="msg" class="msg">bleh I love you 👅</div>
-
-<!-- RELIABLE CAT IMAGE -->
 <img src="https://i.imgur.com/3ZQ3Z4p.png" id="cat" class="cat">
 
 <div id="buttons" class="buttons">
@@ -153,30 +150,43 @@ button:hover {
 
 <script>
 let dragging = false;
+let activated = false;
 
-let knob = document.getElementById("knob");
-let rope = document.getElementById("rope");
+const knob = document.getElementById("knob");
+const rope = document.getElementById("rope");
 
-knob.onmousedown = () => dragging = true;
-document.onmouseup = () => dragging = false;
+/* START DRAG */
+knob.addEventListener("mousedown", () => dragging = true);
+knob.addEventListener("touchstart", () => dragging = true);
 
-document.onmousemove = (e) => {
-    if (!dragging) return;
+/* STOP DRAG */
+document.addEventListener("mouseup", () => dragging = false);
+document.addEventListener("touchend", () => dragging = false);
 
-    let y = e.clientY;
-    rope.style.height = Math.min(250, y) + "px";
+/* DRAG MOVE */
+document.addEventListener("mousemove", handleDrag);
+document.addEventListener("touchmove", handleDrag);
 
-    if (y > 220) activate();
-};
+function handleDrag(e) {
+    if (!dragging || activated) return;
 
+    let y = e.touches ? e.touches[0].clientY : e.clientY;
+
+    let length = Math.min(250, Math.max(120, y));
+    rope.style.height = length + "px";
+
+    if (length > 220) {
+        activated = true;
+        activate();
+    }
+}
+
+/* ACTIVATE */
 function activate() {
-    dragging = false;
-
     document.body.classList.add("light");
     document.getElementById("msg").style.display = "block";
     document.getElementById("cat").style.display = "block";
 
-    // SOUND
     document.getElementById("switchSfx").play();
 
     let music = document.getElementById("music");
@@ -189,12 +199,12 @@ function activate() {
     balloons();
     confetti();
 
-    // SHOW BUTTONS AFTER BALLOONS FINISH (~4s)
     setTimeout(()=>{
         document.getElementById("buttons").style.display = "block";
     },4000);
 }
 
+/* EFFECTS */
 function balloons() {
     for(let i=0;i<20;i++){
         let b=document.createElement("div");
@@ -217,6 +227,7 @@ function confetti() {
     }
 }
 
+/* BUTTON RESPONSE */
 function reply(type){
     let text = document.getElementById("replyText");
     text.style.display = "block";
@@ -228,6 +239,7 @@ function reply(type){
     }
 }
 
+/* COLORS */
 function randomColor(){
     let colors=["red","blue","yellow","green","pink","orange","purple"];
     return colors[Math.floor(Math.random()*colors.length)];
