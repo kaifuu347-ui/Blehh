@@ -49,30 +49,16 @@ body {
     position: absolute;
     top: 18%;
     width: 100%;
-    font-size: 28px;
+    font-size: 30px;
     display: none;
 }
 
 /* MAIN CAT */
 .cat {
     position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 220px;
-    display: none;
-}
-
-/* EXTRA CATS */
-.cat2, .cat3, .cat4 {
-    position: absolute;
     width: 120px;
     display: none;
 }
-
-.cat2 { top: 10%; left: 10%; transform: rotate(-20deg); }
-.cat3 { top: 30%; right: 10%; transform: rotate(15deg); }
-.cat4 { bottom: 10%; left: 15%; transform: rotate(10deg); }
 
 /* BUTTONS */
 .buttons {
@@ -144,11 +130,7 @@ button:hover {
 
 <div id="msg" class="msg">bleh I love you 👅</div>
 
-<!-- CATS -->
-<img src="cat.png" class="cat" id="cat">
-<img src="cat.png" class="cat2" id="cat2">
-<img src="cat.png" class="cat3" id="cat3">
-<img src="cat.png" class="cat4" id="cat4">
+<div id="catContainer"></div>
 
 <div id="buttons" class="buttons">
     <button onclick="reply('thank')">THANK YOU</button>
@@ -158,7 +140,7 @@ button:hover {
 <div id="replyText" class="msg" style="top:50%; display:none;"></div>
 
 <audio id="music">
-  <source src="song.mp3" type="audio/mpeg">
+  <source src="carelesswhisper.mp3" type="audio/mpeg">
 </audio>
 
 <audio id="switchSfx" src="https://www.soundjay.com/switch/switch-1.mp3"></audio>
@@ -172,19 +154,11 @@ function activate() {
     activated = true;
 
     document.body.classList.add("light");
-
     document.getElementById("msg").style.display = "block";
 
-    // show all cats
-    document.getElementById("cat").style.display = "block";
-    document.getElementById("cat2").style.display = "block";
-    document.getElementById("cat3").style.display = "block";
-    document.getElementById("cat4").style.display = "block";
-
+    // SOUND
     document.getElementById("switchSfx").play();
-
-    let music = document.getElementById("music");
-    music.play().catch(()=>{});
+    document.getElementById("music").play().catch(()=>{});
 
     setTimeout(()=>{
         document.getElementById("confettiSfx").play();
@@ -192,10 +166,29 @@ function activate() {
 
     balloons();
     confetti();
+    spawnCats();
 
     setTimeout(()=>{
         document.getElementById("buttons").style.display = "block";
     },4000);
+}
+
+/* MANY CATS */
+function spawnCats(){
+    let container = document.getElementById("catContainer");
+
+    for(let i=0;i<12;i++){
+        let img = document.createElement("img");
+        img.src = "cat.png";
+        img.className = "cat";
+
+        img.style.left = Math.random()*90 + "vw";
+        img.style.top = Math.random()*80 + "vh";
+        img.style.transform = "rotate(" + (Math.random()*40 - 20) + "deg)";
+        img.style.display = "block";
+
+        container.appendChild(img);
+    }
 }
 
 function balloons() {
